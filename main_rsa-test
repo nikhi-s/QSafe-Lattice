@@ -1,0 +1,66 @@
+from rsa_implementation import generate_rsa_key_pair, serialize_key, encrypt_message, decrypt_message
+
+def rsa_cryptography():
+    """
+    This function demonstrates the RSA encryption and decryption process.
+    It performs the following steps:
+    1. Generates an RSA key pair (public and private keys).
+    2. Serializes the keys into a human-readable PEM format.
+    3. Encrypts a sample message using the RSA public key.
+    4. Decrypts the encrypted message using the RSA private key.
+    5. Prints the serialized keys, original message, encrypted message, and decrypted message.
+
+    Key variables:
+    - key_size: Defines the RSA key size in bits. A typical secure key size is 2048 bits.
+        Uncomment the smaller key size (key_size = 3) for testing vulnerability to Shor's Algorithm,
+        but this will not be supported by standard cryptographic libraries due to security concerns.
+
+    The following functions are assumed to be implemented elsewhere in the code:
+    - generate_rsa_key_pair(key_size): Generates an RSA public-private key pair.
+    - serialize_key(key, is_private=True): Serializes the given key (private by default) into PEM format.
+    - encrypt_message(message, public_key): Encrypts the message using the public key.
+    - decrypt_message(encrypted_message, private_key): Decrypts the encrypted message using the private key.
+    """
+
+    # Key size (in bits, 2048 is secure for most purposes)
+    key_size = 2048
+    # key_size = 3  # Key Size for vulnerability to Shor's Algorithm (this is insecure and not supported by the library)
+
+    # Generate RSA key pair (private and public keys)
+    private_key, public_key = generate_rsa_key_pair(key_size) 
+
+    # Serialize keys into a human-readable format (PEM format)
+    serialized_private_key = serialize_key(private_key)
+    serialized_public_key = serialize_key(public_key, is_private=False)
+
+    # Print the serialized private key
+    print("Serialized Private Key:")
+    print(serialized_private_key.decode('utf-8'))  # PEM format output of the private key
+
+    # Print the serialized public key
+    print("\nSerialized Public Key:")
+    print(serialized_public_key.decode('utf-8'))  # PEM format output of the public key
+
+    # Define a sample message to be encrypted
+    message = b'Hello, this is a secret message!'  # Original message (in bytes)
+
+    # Print the original message
+    print("\nOriginal Message:")
+    print(message.decode('utf-8'))  # Decoded message as a readable string
+
+    # Encrypt the message using the public key
+    encrypted_message = encrypt_message(message, public_key)
+
+    # Print the encrypted message (ciphertext)
+    print("\nEncrypted Message:")
+    print(encrypted_message)  # Encrypted message output
+
+    # Decrypt the encrypted message using the private key
+    decrypted_message = decrypt_message(encrypted_message, private_key)
+
+    # Print the decrypted message, which should match the original message
+    print("\nDecrypted Message:")
+    print(decrypted_message.decode('utf-8'))  # Decrypted message, decoded to a readable string
+
+if __name__ == '__main__':
+    rsa_cryptography()
