@@ -1,0 +1,11 @@
+# RSA benchmarks and all analysis/plotting
+cryptography==49.0.0
+numpy==2.0.2
+pandas==2.2.2
+matplotlib==3.10.0
+
+# Kyber / FrodoKEM benchmarks require liboqs-python, which has no prebuilt wheel
+# and must be built from source -- see README:
+#   git clone --depth=1 https://github.com/open-quantum-safe/liboqs-python
+#   cd liboqs-python && pip install . && cd ..
+# Benchmarks in the paper used liboqs 0.16.0 / liboqs-python 0.16.1.dev0
