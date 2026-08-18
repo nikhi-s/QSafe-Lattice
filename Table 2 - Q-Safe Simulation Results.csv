@@ -1,0 +1,4 @@
+Scenario,Kyber,Hybrid,FrodoKEM,Switches,Switch freq. (/step),Q-Safe cum. time (ms),Always-Kyber (ms),Always-FrodoKEM (ms),Reduction vs. always-FrodoKEM (%),Energy est. (J)
+Rising threat (server),91,90,19,18,0.09,766.18,25.01,1364.31,43.8,11.49
+Constrained edge device,200,0,0,0,0.0,25.01,25.01,1364.31,98.2,0.38
+Threat spikes (datacenter),151,25,24,18,0.09,356.26,25.01,1364.31,73.9,5.34
