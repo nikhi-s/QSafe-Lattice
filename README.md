@@ -71,35 +71,40 @@ All figures are written to `figures/`, which the scripts create if it does not e
 plotting function takes a `save_path` argument, so the destination can be changed without
 editing the code.
 
-### Kyber / FrodoKEM — needs liboqs
+### Kyber / FrodoKEM / Q-Safe
 
-`pip install oqs` does **not** work: there is no prebuilt wheel, so liboqs has to be built
-from source. In Google Colab:
+Same three-command shape as the RSA pipeline:
+
+```bash
+python run_pqc_benchmark.py              # pre-flight -> benchmark -> verify -> two CSVs
+python generate_pqc_figure3.py           # Figure 3 (Kyber vs FrodoKEM)
+python run_qsafe_simulation.py           # Figures 4-5 + Table 2
+```
+
+Only the first command needs liboqs, and **`pip install oqs` does not work** — there is no
+prebuilt wheel, so liboqs has to be built from source. In Google Colab:
 
 ```bash
 git clone --depth=1 https://github.com/open-quantum-safe/liboqs-python
 cd liboqs-python && pip install . && cd ..
 ```
 
-Then:
+Everything downstream reads the committed CSVs, so figures and Table 2 regenerate on any
+machine with no liboqs at all:
 
-```python
-from benchmark_pqc import run_full_benchmark_suite
-from verify_pqc_results import verify_pqc_results
-from plot_pqc_comparison import plot_figure4
-from qsafe_simulation import extract_key_exchange_times, run_all_scenarios
-
-results = run_full_benchmark_suite(num_trials=100, kyber_num_trials=500)
-verify_pqc_results()
-plot_figure4(results["per_variant"], stat="median", error_bar_type="sem")
-
-k, f = extract_key_exchange_times(results["complete_key_exchange"], stat="median")
-table2, _ = run_all_scenarios(k, f)      # Figures 4-5 + Table 2
+```bash
+python run_pqc_benchmark.py --reuse-csv  # verify the committed CSVs, skip benchmarking
 ```
 
-The Q-Safe simulation uses a fixed random seed (42), so **Table 2 regenerates exactly**
-from the committed CSVs on any machine — only the underlying timing inputs are
-hardware-dependent.
+`run_pqc_benchmark.py` runs `preflight_check()` before measuring anything. Besides
+validating the config, it asks liboqs whether all six mechanisms are actually supported by
+this build — a liboqs compiled without FrodoKEM, or a mechanism name that changed between
+versions, fails in seconds instead of an hour into the run.
+
+The Q-Safe simulation is seeded (`SEED = 42`), and its two timing inputs are pulled out of
+the complete-key-exchange CSV programmatically rather than typed in, so **Table 2
+regenerates exactly** from the committed data — the benchmark and the table cannot drift
+apart.
 
 ---
 
@@ -134,25 +139,32 @@ Python 3.12.13
 | `generate_rsa_table_and_figure.py` | Table 1 + Figure 2, with a built-in check that the two agree |
 | `plot_complexity_figure.py` | Figure 1 — analytic GNFS/Shor and LWE/Grover complexity models |
 
-**Kyber / FrodoKEM / Q-Safe**
+**Kyber / FrodoKEM / Q-Safe pipeline** — deliberately the same shape as the RSA one, file
+for file
 
-| File | Role |
-|---|---|
-| `benchmark_pqc.py` | liboqs harness: per-operation and complete-key-exchange timing |
-| `verify_pqc_results.py` | Trial counts, ciphertext-size constants, FrodoKEM variant detection |
-| `plot_pqc_comparison.py` | Figure 3 — Kyber vs. FrodoKEM at matched security levels |
-| `qsafe_simulation.py` | EMA threat smoothing, environment-derived weights, logistic suitability scoring, three runtime scenarios (Figures 4–5, Table 2) |
-| `build_figure6_drawio.py` | Q-Safe architecture schematic (draw.io source) |
+| File | Role | RSA counterpart |
+|---|---|---|
+| `pqc_config.py` | Algorithm sets, trial counts, output paths — the single source of truth, read by the benchmark *and* the checks | `run_config.py` |
+| `verify_pqc_results.py` | `preflight_check()` (config + liboqs mechanism support) and `verify_pqc_results()` (trial counts, ciphertext constants, FrodoKEM variant detection) | `verify_rsa_results.py` |
+| `benchmark_pqc.py` | liboqs harness: per-operation and complete-key-exchange timing, CSV write/read | `benchmark_rsa.py` |
+| `run_pqc_benchmark.py` | Entry point: pre-flight → benchmark → verify → two CSVs. `--reuse-csv` to skip measuring | `run_rsa_benchmark.py` |
+| `plot_pqc_comparison.py` | Figure 3 — Kyber vs. FrodoKEM at matched security levels | — |
+| `generate_pqc_figure3.py` | Builds Figure 3 from the CSVs and prints the numbers the Results text quotes | `generate_rsa_table_and_figure.py` |
+| `qsafe_simulation.py` | EMA threat smoothing, environment-derived weights, logistic suitability scoring, three runtime scenarios | — |
+| `run_qsafe_simulation.py` | Figures 4–5 + Table 2, with timing inputs read from the CSV rather than hand-entered | — |
+| `build_figure6_drawio.py` | Q-Safe architecture schematic (draw.io source) | — |
 
-**Data** — `rsa_benchmark_results.csv` · `pqc_benchmark_results.csv` ·
-`pqc_complete_key_exchange_results.csv` · `qsafe_simulation_summary.csv` · the generated
-summary tables
+**Data** — CSVs live at the repository root: `rsa_benchmark_results.csv` ·
+`pqc_benchmark_results.csv` · `pqc_complete_key_exchange_results.csv` ·
+`Table 1 - RSA Performance Summary.csv` · `Table 2 - Q-Safe Simulation Results.csv`
 
-**Figures** — `figures/` (created automatically; regenerated by the scripts above)
+**Figures** — `figures/`, created automatically by whichever script needs it. Every
+plotting function takes a `save_path` (or `save_dir`), so nothing is hardcoded.
 
 **Notebooks** — `RSA_Kyber_Benchmarking_Aug2026.ipynb` · `PQC_Lattice_August2026.ipynb`.
 Each notebook writes its own `.py` modules with `%%writefile`, so the code that produced
-the published results and the code in this repository are identical by construction.
+the published results and the code in this repository are identical by construction. The
+orchestration cells only call functions — they contain no logic of their own.
 
 ---
 
@@ -167,8 +179,15 @@ A few decisions worth knowing about, all documented in the source:
   2× a steady-state call, because OpenSSL builds its Montgomery and blinding context
   lazily. Left in, that artifact would attach itself to whichever measurement happened to
   run first.
-- **RSA-1024 uses 500 trials, not 100.** Its encryption times are small enough that
-  scheduler jitter dominates; the extra trials tighten the estimate.
+- **Trial counts differ by algorithm family, on purpose.** RSA-1024 and all three Kyber
+  variants get 500 trials; everything else gets 100. Kyber operations run in tens of
+  microseconds, where scheduler jitter is a large fraction of the signal; FrodoKEM's run in
+  milliseconds, where it is not. More trials cost almost nothing when each one is that
+  fast.
+- **Run parameters live in exactly one file per pipeline** (`run_config.py`,
+  `pqc_config.py`), read by both the benchmark and the verification. When the expected
+  values were restated separately in the checks, they could silently drift from what
+  actually ran — and then the assertions were checking the wrong thing while still passing.
 - **Memory measurement was removed, not fixed.** `tracemalloc` reported ~24 bytes for RSA
   key generation regardless of key size, because the real allocation happens inside
   OpenSSL, outside Python's allocator. A process-RSS approach was also non-monotonic.
@@ -182,6 +201,21 @@ A few decisions worth knowing about, all documented in the source:
 
 ---
 
+## Working in the notebooks
+
+`%%writefile` only writes to disk. If a module was already imported in the session, Python
+serves the cached copy from `sys.modules` and the edit silently does nothing — the
+give-away is a traceback whose line numbers don't match the file you're looking at. Each
+notebook defines a `reload_*_modules()` helper in its first cell; call it after re-running
+any `%%writefile` cell.
+
+It replaces `%load_ext autoreload`, which cannot be used here: Colab pins an old IPython
+whose autoreload extension imports `imp`, removed in Python 3.12. The helper also deletes
+the project's `.pyc` files rather than relying on Python's cache validation, which compares
+only the source's size and whole-second mtime — a `%%writefile` edit can match both.
+
+---
+
 ## Citing
 
 Swaminathan, N., and S. M. Rathinakumar. *Q-Safe: Mitigating Quantum Threats with
@@ -190,3 +224,4 @@ Lattice-Based Cryptography.* Manuscript in preparation.
 ## License
 
 See `LICENSE`.
+
