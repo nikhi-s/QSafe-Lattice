@@ -1,118 +1,106 @@
-<mxfile host="app.diagrams.net" agent="build_figure6_drawio.py" version="24.0.0" type="device">
+<mxfile host="app.diagrams.net" agent="Claude">
   <diagram name="Figure 6 - Q-Safe Decision Logic" id="qsafe-decision-logic">
-    <mxGraphModel dx="1000" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1400" math="0" shadow="0">
+    <mxGraphModel dx="1413" dy="847" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1400" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="stage1" value="INPUTS" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" vertex="1" parent="1">
-          <mxGeometry x="10" y="60" width="80" height="20" as="geometry" />
+        <mxCell id="stage1" parent="1" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" value="INPUTS" vertex="1">
+          <mxGeometry height="20" width="80" x="10" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="stage2" value="SMOOTHING" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" vertex="1" parent="1">
-          <mxGeometry x="10" y="230" width="80" height="20" as="geometry" />
+        <mxCell id="stage2" parent="1" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" value="SMOOTHING" vertex="1">
+          <mxGeometry height="20" width="80" x="10" y="200" as="geometry" />
         </mxCell>
-        <mxCell id="stage3" value="WEIGHTING" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" vertex="1" parent="1">
-          <mxGeometry x="10" y="400" width="80" height="20" as="geometry" />
+        <mxCell id="stage3" parent="1" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" value="WEIGHTING" vertex="1">
+          <mxGeometry height="20" width="80" x="10" y="350" as="geometry" />
         </mxCell>
-        <mxCell id="stage4" value="SCORING" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" vertex="1" parent="1">
-          <mxGeometry x="10" y="600" width="80" height="20" as="geometry" />
+        <mxCell id="stage4" parent="1" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" value="SCORING" vertex="1">
+          <mxGeometry height="20" width="80" x="10" y="530" as="geometry" />
         </mxCell>
-        <mxCell id="stage5" value="DECISION" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" vertex="1" parent="1">
-          <mxGeometry x="10" y="840" width="80" height="20" as="geometry" />
+        <mxCell id="stage5" parent="1" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" value="DECISION" vertex="1">
+          <mxGeometry height="20" width="80" x="10" y="710" as="geometry" />
         </mxCell>
-        <mxCell id="stage6" value="OUTCOME" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" vertex="1" parent="1">
-          <mxGeometry x="10" y="1080" width="80" height="20" as="geometry" />
+        <mxCell id="stage6" parent="1" style="text;html=1;align=center;verticalAlign=middle;rotation=-90;fontSize=11;fontStyle=1;fontColor=#566573;" value="OUTCOME" vertex="1">
+          <mxGeometry height="20" width="80" x="10" y="900" as="geometry" />
         </mxCell>
-        <mxCell id="input_threat" value="Quantum Threat
-Level (0–100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1948A;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" vertex="1" parent="1">
-          <mxGeometry x="80" y="40" width="200" height="70" as="geometry" />
+        <mxCell id="input_threat" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1948A;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" value="Quantum Threat&#xa;Level (0–100)" vertex="1">
+          <mxGeometry height="70" width="200" x="80" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="input_capability" value="System Capability
-(0–100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" vertex="1" parent="1">
-          <mxGeometry x="330" y="40" width="200" height="70" as="geometry" />
+        <mxCell id="input_capability" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" value="System Capability&#xa;(0–100)" vertex="1">
+          <mxGeometry height="70" width="200" x="330" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="input_energy" value="Energy Availability
-(0–100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82E0AA;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" vertex="1" parent="1">
-          <mxGeometry x="580" y="40" width="200" height="70" as="geometry" />
+        <mxCell id="input_energy" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82E0AA;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" value="Energy Availability&#xa;(0–100)" vertex="1">
+          <mxGeometry height="70" width="200" x="580" y="40" as="geometry" />
         </mxCell>
-        <mxCell id="smoothing" value="Exponential moving-average smoothing (α = 0.35)
-filters transient spikes; prevents rapid algorithm flapping" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCF3CF;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" vertex="1" parent="1">
-          <mxGeometry x="130" y="200" width="600" height="70" as="geometry" />
+        <mxCell id="smoothing" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCF3CF;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" value="Exponential moving-average smoothing (α = 0.35)&#xa;filters transient spikes; prevents rapid algorithm flapping" vertex="1">
+          <mxGeometry height="70" width="600" x="130" y="170" as="geometry" />
         </mxCell>
-        <mxCell id="w_security" value="w_security
-↑ as threat rises" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1948A;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" vertex="1" parent="1">
-          <mxGeometry x="80" y="360" width="200" height="80" as="geometry" />
+        <mxCell id="w_security" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1948A;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" value="w_security&#xa;↑ as threat rises" vertex="1">
+          <mxGeometry height="80" width="200" x="80" y="310" as="geometry" />
         </mxCell>
-        <mxCell id="w_performance" value="w_performance
-↑ as capability
-headroom shrinks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" vertex="1" parent="1">
-          <mxGeometry x="330" y="360" width="200" height="80" as="geometry" />
+        <mxCell id="w_performance" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85C1E9;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" value="w_performance&#xa;↑ as capability&#xa;headroom shrinks" vertex="1">
+          <mxGeometry height="80" width="200" x="330" y="310" as="geometry" />
         </mxCell>
-        <mxCell id="w_efficiency" value="w_efficiency
-↑ as energy shrinks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82E0AA;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" vertex="1" parent="1">
-          <mxGeometry x="580" y="360" width="200" height="80" as="geometry" />
+        <mxCell id="w_efficiency" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#82E0AA;strokeColor=#000000;strokeWidth=1.5;fontSize=12;arcSize=20;" value="w_efficiency&#xa;↑ as energy shrinks" vertex="1">
+          <mxGeometry height="80" width="200" x="580" y="310" as="geometry" />
         </mxCell>
-        <mxCell id="norm_note" value="(the three weights are normalized to sum to 1)" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#566573;" vertex="1" parent="1">
-          <mxGeometry x="280" y="450" width="300" height="20" as="geometry" />
+        <mxCell id="norm_note" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#566573;" value="(the three weights are normalized to sum to 1)" vertex="1">
+          <mxGeometry height="20" width="300" x="280" y="400" as="geometry" />
         </mxCell>
-        <mxCell id="kyber_score" value="&lt;b&gt;Kyber composite score&lt;/b&gt;&lt;br&gt;&lt;br&gt;w_security × 0.6&amp;nbsp;&amp;nbsp;◀ lower security rating&lt;br&gt;+ w_performance × perf_score&amp;nbsp;&amp;nbsp;(fast: wins)&lt;br&gt;+ w_efficiency × eff_score&amp;nbsp;&amp;nbsp;(cheap: wins)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5F5E3;strokeColor=#000000;strokeWidth=1.5;fontSize=11;arcSize=15;" vertex="1" parent="1">
-          <mxGeometry x="80" y="520" width="330" height="140" as="geometry" />
+        <mxCell id="kyber_score" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5F5E3;strokeColor=#000000;strokeWidth=1.5;fontSize=11;arcSize=15;" value="&lt;b&gt;Kyber composite score&lt;/b&gt;&lt;br&gt;&lt;br&gt;w_security × 0.6&amp;nbsp;&amp;nbsp;◄ lower security rating&lt;br&gt;+ w_performance × perf_score&amp;nbsp;&amp;nbsp;(fast: wins)&lt;br&gt;+ w_efficiency × eff_score&amp;nbsp;&amp;nbsp;(cheap: wins)" vertex="1">
+          <mxGeometry height="140" width="330" x="80" y="450" as="geometry" />
         </mxCell>
-        <mxCell id="frodo_score" value="&lt;b&gt;FrodoKEM composite score&lt;/b&gt;&lt;br&gt;&lt;br&gt;w_security × 1.0&amp;nbsp;&amp;nbsp;◀ highest security rating&lt;br&gt;+ w_performance × perf_score&amp;nbsp;&amp;nbsp;(slower)&lt;br&gt;+ w_efficiency × eff_score&amp;nbsp;&amp;nbsp;(costlier)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6EAF8;strokeColor=#000000;strokeWidth=1.5;fontSize=11;arcSize=15;" vertex="1" parent="1">
-          <mxGeometry x="450" y="520" width="330" height="140" as="geometry" />
+        <mxCell id="frodo_score" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6EAF8;strokeColor=#000000;strokeWidth=1.5;fontSize=11;arcSize=15;" value="&lt;b&gt;FrodoKEM composite score&lt;/b&gt;&lt;br&gt;&lt;br&gt;w_security × 1.0&amp;nbsp;&amp;nbsp;◄ highest security rating&lt;br&gt;+ w_performance × perf_score&amp;nbsp;&amp;nbsp;(slower)&lt;br&gt;+ w_efficiency × eff_score&amp;nbsp;&amp;nbsp;(costlier)" vertex="1">
+          <mxGeometry height="140" width="330" x="450" y="450" as="geometry" />
         </mxCell>
-        <mxCell id="decision" value="scores within
-hybrid margin?
-|Δ| ≤ 0.08" style="rhombus;whiteSpace=wrap;html=1;fillColor=#F5EEF8;strokeColor=#000000;strokeWidth=1.5;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="310" y="770" width="240" height="140" as="geometry" />
+        <mxCell id="decision" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#F5EEF8;strokeColor=#000000;strokeWidth=1.5;fontSize=11;" value="scores within&#xa;hybrid margin?&#xa;|Δ| ≤ 0.08" vertex="1">
+          <mxGeometry height="140" width="240" x="310" y="640" as="geometry" />
         </mxCell>
-        <mxCell id="hybrid_outcome" value="&lt;b&gt;Hybrid mode&lt;/b&gt;&lt;br&gt;run BOTH KEMs, combine secrets&lt;br&gt;&lt;br&gt;security of the stronger&lt;br&gt;+ cost of both" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBDEF0;strokeColor=#000000;strokeWidth=1.5;fontSize=11;arcSize=15;" vertex="1" parent="1">
-          <mxGeometry x="80" y="1020" width="300" height="120" as="geometry" />
+        <mxCell id="hybrid_outcome" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EBDEF0;strokeColor=#000000;strokeWidth=1.5;fontSize=11;arcSize=15;" value="&lt;b&gt;Hybrid mode&lt;/b&gt;&lt;br&gt;run BOTH KEMs, combine secrets&lt;br&gt;&lt;br&gt;security of the stronger&lt;br&gt;+ cost of both" vertex="1">
+          <mxGeometry height="120" width="300" x="80" y="840" as="geometry" />
         </mxCell>
-        <mxCell id="select_outcome" value="&lt;b&gt;Select higher-scoring algorithm&lt;/b&gt;&lt;br&gt;&lt;br&gt;Kyber → speed &amp;amp; efficiency&lt;br&gt;FrodoKEM → maximum security" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCF3CF;strokeColor=#000000;strokeWidth=1.5;fontSize=11;arcSize=15;" vertex="1" parent="1">
-          <mxGeometry x="480" y="1020" width="300" height="120" as="geometry" />
+        <mxCell id="select_outcome" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCF3CF;strokeColor=#000000;strokeWidth=1.5;fontSize=11;arcSize=15;" value="&lt;b&gt;Select higher-scoring algorithm&lt;/b&gt;&lt;br&gt;&lt;br&gt;Kyber → speed &amp;amp; efficiency&lt;br&gt;FrodoKEM → maximum security" vertex="1">
+          <mxGeometry height="120" width="300" x="480" y="840" as="geometry" />
         </mxCell>
-        <mxCell id="a1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="input_threat" target="smoothing">
+        <mxCell id="a1" edge="1" parent="1" source="input_threat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" target="smoothing">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="input_capability" target="smoothing">
+        <mxCell id="a2" edge="1" parent="1" source="input_capability" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" target="smoothing">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="input_energy" target="smoothing">
+        <mxCell id="a3" edge="1" parent="1" source="input_energy" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" target="smoothing">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="smoothing" target="w_security">
+        <mxCell id="a4" edge="1" parent="1" source="smoothing" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" target="w_security">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="smoothing" target="w_performance">
+        <mxCell id="a5" edge="1" parent="1" source="smoothing" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="w_performance">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="smoothing" target="w_efficiency">
+        <mxCell id="a6" edge="1" parent="1" source="smoothing" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" target="w_efficiency">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="w_security" target="kyber_score">
+        <mxCell id="a7" edge="1" parent="1" source="w_security" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" target="kyber_score">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="w_performance" target="kyber_score">
+        <mxCell id="a8" edge="1" parent="1" source="w_performance" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="kyber_score">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="w_performance" target="frodo_score">
+        <mxCell id="a9" edge="1" parent="1" source="w_performance" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="frodo_score">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" edge="1" parent="1" source="w_efficiency" target="frodo_score">
+        <mxCell id="a10" edge="1" parent="1" source="w_efficiency" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;" target="frodo_score">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;entryX=0.25;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="kyber_score" target="decision">
+        <mxCell id="a11" edge="1" parent="1" source="kyber_score" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;entryX=0.25;entryY=0.25;entryDx=0;entryDy=0;" target="decision">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;entryX=0.75;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="frodo_score" target="decision">
+        <mxCell id="a12" edge="1" parent="1" source="frodo_score" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;entryX=0.75;entryY=0.25;entryDx=0;entryDy=0;" target="decision">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a13" value="Yes
-(too close to call)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.25;exitY=0.75;exitDx=0;exitDy=0;fontSize=11;" edge="1" parent="1" source="decision" target="hybrid_outcome">
+        <mxCell id="a13" edge="1" parent="1" source="decision" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.25;exitY=0.75;exitDx=0;exitDy=0;fontSize=11;" target="hybrid_outcome" value="&lt;b&gt;&lt;i&gt;Yes&lt;br&gt;(too close to call)&lt;/i&gt;&lt;/b&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="a14" value="No
-(clear winner)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.75;exitY=0.75;exitDx=0;exitDy=0;fontSize=11;" edge="1" parent="1" source="decision" target="select_outcome">
+        <mxCell id="a14" edge="1" parent="1" source="decision" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.75;exitY=0.75;exitDx=0;exitDy=0;fontSize=11;" target="select_outcome" value="&lt;b&gt;&lt;i&gt;No&lt;br&gt;(clear winner)&lt;/i&gt;&lt;/b&gt;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
