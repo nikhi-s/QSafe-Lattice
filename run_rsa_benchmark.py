@@ -1,30 +1,30 @@
 
 """
 run_rsa_benchmark.py
- 
+
 Entry point for the RSA benchmark: validates the run configuration, runs the
 benchmark, writes rsa_benchmark_results.csv, and verifies it.
- 
+
     python run_rsa_benchmark.py                 # full run (hours)
     python run_rsa_benchmark.py --reuse-csv     # skip benchmarking, verify the
                                                 # existing CSV and rebuild outputs
- 
+
 Kept separate from benchmark_rsa.py so that module stays a pure library, with
 no dependency on any particular run's configuration.
 """
- 
+
 import os
 import sys, cryptography, numpy, pandas, matplotlib, platform
- 
+
 import pandas as pd
- 
+
 from benchmark_rsa import collect_benchmark_data, plot_line_charts
 from run_config import KEY_SIZES, MESSAGE_SIZES, KEY_SIZE_SAMPLES
 from verify_rsa_results import preflight_check, verify_results
- 
+
 RESULTS_CSV = "rsa_benchmark_results.csv"
- 
- 
+
+
 def main(reuse_csv: bool = False, show_invariance_check: bool = False):
     """
     reuse_csv: skip benchmarking and verify/reuse an existing RESULTS_CSV.
@@ -35,7 +35,7 @@ def main(reuse_csv: bool = False, show_invariance_check: bool = False):
     """
     # Fails in seconds if the configuration is wrong, rather than hours in.
     preflight_check()
- 
+
     if reuse_csv:
         if not os.path.exists(RESULTS_CSV):
             raise SystemExit(f"--reuse-csv given but {RESULTS_CSV} does not exist; "
@@ -48,7 +48,7 @@ def main(reuse_csv: bool = False, show_invariance_check: bool = False):
         if os.path.exists(RESULTS_CSV):
             os.remove(RESULTS_CSV)
             print(f"[fresh run] Removed stale {RESULTS_CSV}")
- 
+
         df = collect_benchmark_data(
             KEY_SIZES, MESSAGE_SIZES,
             num_samples=10,
@@ -58,10 +58,10 @@ def main(reuse_csv: bool = False, show_invariance_check: bool = False):
         df.to_csv(RESULTS_CSV, index=False)
         print(f"Saved {len(df)} rows to {RESULTS_CSV} "
               f"({df['skipped_reason'].notna().sum()} skipped combinations)")
- 
+
     # Verify before anything downstream consumes the data.
     verify_results(RESULTS_CSV)
- 
+
     if show_invariance_check:
         # Diagnostic only, not a manuscript figure: flat lines confirm the
         # Methods claim that RSA-OAEP timing does not depend on message size.
@@ -75,7 +75,7 @@ def main(reuse_csv: bool = False, show_invariance_check: bool = False):
     print("  python plot_complexity_figure.py          ->  Figure 1")
 
     return df
- 
+
 if __name__ == "__main__":
     # Force a non-interactive backend when run as a script, so an interactive
     # backend can never block the run waiting for a window to be closed. This
@@ -83,11 +83,10 @@ if __name__ == "__main__":
     # notebook leaves the inline backend untouched.
     import matplotlib
     matplotlib.use("Agg")
- 
+
     main(reuse_csv="--reuse-csv" in sys.argv, show_invariance_check=True)
 
     print("Python:", sys.version)
     print("Platform:", platform.platform())
     for m in (cryptography, numpy, pandas, matplotlib):
       print(m.__name__, m.__version__)
- 

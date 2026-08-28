@@ -37,7 +37,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from pqc_config import FIGURE_DIR, TABLE2_CSV
+from pqc_config import FIGURE_DIR, TABLE2_CSV, LEVEL3_KYBER, LEVEL3_FRODO
 
 
 SEED = 42
@@ -427,11 +427,7 @@ def extract_key_exchange_times(complete_key_exchange_results: dict, stat: str = 
     """
     Pull kyber_time_s and frodo_time_s directly from
     benchmark_pqc.run_full_benchmark_suite()["complete_key_exchange"],
-    instead of hand-copying printed numbers into this file. This is the
-    single source of truth for these two timings -- if you rerun the
-    benchmark and get different numbers, calling this again picks them up
-    automatically, with no manual transcription step to forget or get
-    wrong.
+    using LEVEL3_KYBER and LEVEL3_FRODO from pqc_config as single-source-of-truth.
 
     stat: "median" (default) or "mean" or "min". benchmark_pqc.py's own
     guidance is that `min` can be more robust to system noise for Kyber's
@@ -440,37 +436,17 @@ def extract_key_exchange_times(complete_key_exchange_results: dict, stat: str = 
     pass stat="mean" if you'd rather use that instead. Whichever you pick,
     the SAME stat is applied to both algorithms for methodological
     consistency, and state the choice explicitly in the Methods section.
-
-    Expects the dict shape produced by benchmark_pqc.py:
-        {"Kyber768": {"median_time_s":.., "mean_time_s":.., "min_time_s":.., ...},
-         "FrodoKEM-976-AES": {"median_time_s":.., "mean_time_s":.., "min_time_s":.., ...}}
     """
     key = f"{stat}_time_s"
-    kyber_time_s = complete_key_exchange_results["Kyber768"][key]
-    frodo_time_s = complete_key_exchange_results["FrodoKEM-976-AES"][key]
-    print(f"Using {stat} of measured times: Kyber768={kyber_time_s*1000:.4f} ms, "
-          f"FrodoKEM-976-AES={frodo_time_s*1000:.4f} ms "
+    kyber_time_s = complete_key_exchange_results[LEVEL3_KYBER][key]
+    frodo_time_s = complete_key_exchange_results[LEVEL3_FRODO][key]
+    print(f"Using {stat} of measured times: {LEVEL3_KYBER}={kyber_time_s*1000:.4f} ms, "
+          f"{LEVEL3_FRODO}={frodo_time_s*1000:.4f} ms "
           f"(ratio {frodo_time_s/kyber_time_s:.1f}x)")
     return kyber_time_s, frodo_time_s
 
 
 if __name__ == "__main__":
-    # Run this in the SAME Colab session, right after benchmark_pqc.py's
-    # run_full_benchmark_suite() -- do not hardcode timing numbers here.
-    #
-    #     from benchmark_pqc import run_full_benchmark_suite
-    #     from qsafe_simulation import extract_key_exchange_times, run_all_scenarios
-    #
-    #     bench_results = run_full_benchmark_suite(num_trials=100, kyber_num_trials=500)
-    #     kyber_time_s, frodo_time_s = extract_key_exchange_times(
-    #         bench_results["complete_key_exchange"], stat="median"
-    #     )
-    #     table2, sim_results = run_all_scenarios(kyber_time_s, frodo_time_s)
-    #
-    # This __main__ block intentionally does nothing on its own -- there
-    # is no benchmark data available outside a Colab session with liboqs
-    # installed, and hardcoding a "last known" number here is exactly the
-    # transcription-drift problem this function was added to avoid.
     print("qsafe_simulation.py loaded. See the usage example in this "
           "__main__ block (or this file's module docstring) to run it "
           "against real benchmark_pqc.py output -- no numbers are "

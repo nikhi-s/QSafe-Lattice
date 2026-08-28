@@ -410,7 +410,7 @@ def plot_rsa_summary(df, key_sizes, message_size=16, stat="median",
 def plot_line_charts(df, key_sizes, metric, title, save_dir=".", stat="median", show=True):
     """
     Plot `metric` vs. message size, one line per key size.
- 
+
     stat: "median" (default) or "mean". Defaults to median, not mean,
     because RSA encryption specifically is fast enough (sub-millisecond,
     small fixed public exponent) that a single scheduling-noise outlier
@@ -419,13 +419,13 @@ def plot_line_charts(df, key_sizes, metric, title, save_dir=".", stat="median", 
     n=10, driven by exactly one such outlier. Median is far more robust
     to this. This matches the convention already used for the Kyber/
     FrodoKEM comparison figures (plot_pqc_comparison.py).
- 
+
     show: True displays the figure (notebook use); False closes it after
     saving, so a script neither leaks figures nor blocks on a window.
- 
+
     Note the output filename is built from `metric`, not `title`:
     "{save_dir}/{metric}_line_chart.png".
- 
+
     Rows where the metric is None (skipped combos, e.g. message too large
     for a given key's OAEP ceiling) are dropped automatically.
     """
@@ -441,7 +441,7 @@ def plot_line_charts(df, key_sizes, metric, title, save_dir=".", stat="median", 
             marker="o",
             label=f"Key size: {key_size} bits",
         )
- 
+
     # NOTE: no plt.title() -- JEI prohibits on-graph titles; put the
     # descriptive title in the figure caption if this is used in the paper.
     plt.xlabel("Message Size (bytes)")
@@ -460,18 +460,18 @@ def plot_line_charts(df, key_sizes, metric, title, save_dir=".", stat="median", 
         plt.show()
     else:
         plt.close(fig)      # release instead of leaking
- 
- 
+
+
 def plot_heatmap(df, key_sizes, message_sizes, metric, title, save_dir=".",
                  colormap="viridis", stat="median", show=True):
     """
     Build a (key_size x message_size) matrix of `stat` metric values from
     the tidy DataFrame and plot it as a heatmap.
- 
+
     stat: "median" (default) or "mean" -- see plot_line_charts() docstring
     for why median is the safer default given RSA-1024 encryption's
     measured noise (std/mean = 1.79 at n=10).
- 
+
     show: see plot_line_charts().
     """
     pivot = (
@@ -480,20 +480,20 @@ def plot_heatmap(df, key_sizes, message_sizes, metric, title, save_dir=".",
         .reindex(index=key_sizes, columns=message_sizes)
     )
     data = pivot.to_numpy()  # rows=key_sizes, cols=message_sizes; NaN where skipped/missing
- 
+
     fig = plt.figure(figsize=(10, 8))
     plt.imshow(data, cmap=colormap, aspect="auto")
     plt.colorbar(label=title)
     plt.xticks(ticks=np.arange(len(message_sizes)), labels=[f"{m}B" for m in message_sizes],
                rotation=45, ha="right")
     plt.yticks(ticks=np.arange(len(key_sizes)), labels=[f"{k} bits" for k in key_sizes])
- 
+
     for i in range(data.shape[0]):
         for j in range(data.shape[1]):
             val = data[i, j]
             label = "N/A" if np.isnan(val) else f"{val:.2e}"
             plt.text(j, i, label, ha="center", va="center", fontsize=8, color="white")
- 
+
     plt.xlabel("Message Size (bytes)")
     plt.ylabel("Key Size (bits)")
     # NOTE: no plt.title() -- JEI prohibits on-graph titles; put the

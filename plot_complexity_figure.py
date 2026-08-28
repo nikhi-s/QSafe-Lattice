@@ -147,7 +147,7 @@ def plot_complexity_figure(save_path: str = "figures/Figure 1.png", show=True):
     print(f"Note for text: Grover at n=512 (~10^{oom(lwe_grover_complexity(512))}) equals "
           f"classical at n=256 (~10^{oom(lwe_classical_complexity(256))}) -- "
           f"the 'double the dimension' defense, visible directly on the graph.")
-    
+
 
 if __name__ == "__main__":
     # Force a non-interactive backend when run as a script, so an interactive
