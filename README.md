@@ -14,9 +14,9 @@ threat level and device constraints.
 
 | | Finding |
 |---|---|
-| **RSA scaling** | Decryption rises from 0.131 ms (1024-bit) to 37.60 ms (8192-bit); key generation from 0.013 s to 6.74 s median, with a **26.3 s** worst case |
-| **Kyber vs. FrodoKEM** | At matched NIST security level 3, a complete Kyber key exchange is **54.6× faster** (0.1250 ms vs. 6.8215 ms); FrodoKEM ciphertexts are 12.7–14.5× larger |
-| **Q-Safe** | Cuts cumulative key-exchange time **43.8%** (rising-threat scenario) and **73.9%** (threat-spike scenario) versus an always-FrodoKEM deployment, with **zero overhead** on a constrained edge device |
+| **RSA scaling** | Decryption rises from 0.129 ms (1024-bit) to 39.64 ms (8192-bit); key generation from 0.013 s to 8.47 s median, with a **34.2 s** worst case |
+| **Kyber vs. FrodoKEM** | At matched NIST security level 3, a complete Kyber key exchange is **33.4× faster** (0.0917 ms vs. 3.0671 ms); FrodoKEM ciphertexts are 12.7–14.5× larger |
+| **Q-Safe** | Cuts cumulative key-exchange time **34.6%** (rising-threat scenario) and **71.5%** (threat-spike scenario) versus an always-FrodoKEM deployment, with **zero overhead** on a constrained edge device |
 
 ---
 
@@ -34,8 +34,8 @@ python generate_rsa_table_and_figure.py  # Table 1 + Figure 2 (cross-checked aga
 python plot_complexity_figure.py         # Figure 1 (analytic models -- needs no data at all)
 ```
 
-The benchmark takes hours, dominated by RSA-8192 key generation (6.7 s median per key, up
-to 26 s). To rebuild the outputs from the committed data instead of re-measuring:
+The benchmark takes hours, dominated by RSA-8192 key generation (8.5 s median per key, up
+to 34 s). To rebuild the outputs from the committed data instead of re-measuring:
 
 ```bash
 python run_rsa_benchmark.py --reuse-csv  # verify the committed CSV, skip benchmarking
@@ -152,11 +152,16 @@ for file
 | `generate_pqc_figure3.py` | Builds Figure 3 from the CSVs and prints the numbers the Results text quotes | `generate_rsa_table_and_figure.py` |
 | `qsafe_simulation.py` | EMA threat smoothing, environment-derived weights, logistic suitability scoring, three runtime scenarios | — |
 | `run_qsafe_simulation.py` | Figures 4–5 + Table 2, with timing inputs read from the CSV rather than hand-entered | — |
-| `build_figure6_drawio.py` | Q-Safe architecture schematic (draw.io source) | — |
 
 **Data** — CSVs live at the repository root: `rsa_benchmark_results.csv` ·
 `pqc_benchmark_results.csv` · `pqc_complete_key_exchange_results.csv` ·
 `Table 1 - RSA Performance Summary.csv` · `Table 2 - Q-Safe Simulation Results.csv`
+
+All committed KEM data comes from a **single benchmark session**, and the RSA data from
+one further session. This matters: timings on shared cloud hardware vary by a factor of
+two or more between sessions, so mixing runs would make the figures disagree with the
+tables. Every derived artifact is regenerated from the CSVs committed here, so the
+numbers in the paper, the figures and the raw per-trial data are one consistent set.
 
 **Figures** — `figures/`, created automatically by whichever script needs it. Every
 plotting function takes a `save_path` (or `save_dir`), so nothing is hardcoded.
@@ -194,8 +199,15 @@ A few decisions worth knowing about, all documented in the source:
   Publishing a broken measurement seemed worse than publishing none.
 - **The GNFS constant is `(64/9)^(1/3)` ≈ 1.923**, not `64/9`. The cube root belongs on
   the constant in `L_N[1/3, c]`; the earlier code inflated the exponent ~3.7×.
+- **Two independent timings must agree, and are checked.** Each KEM operation is timed
+  separately (`benchmark_kem`) and a full key exchange is also timed as one block
+  (`benchmark_complete_key_exchange`). The block time should equal the sum of its three
+  components; if the machine slows part-way through a run, it will not. A discarded run
+  showed ratios of 1.54× and 1.89× — the per-operation figures and the simulation's
+  timing inputs disagreed by nearly 2×. The committed run sits at 0.99× for both
+  algorithms. Any re-run should be checked the same way before its outputs are used.
 - **Q-Safe's suitability sub-scores use a bounded logistic transform** of the log time
-  ratio rather than the raw ratio. With a raw ratio, Kyber's ~55× speed advantage would
+  ratio rather than the raw ratio. With a raw ratio, Kyber's ~33× speed advantage would
   swamp the security dimension entirely and FrodoKEM could never be selected at any
   threat level.
 
