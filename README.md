@@ -6,7 +6,7 @@ simulation of Q-Safe, an adaptive framework that selects between them at runtime
 threat level and device constraints.
 
 > **Status:** manuscript in preparation for the *Journal of Emerging Investigators*.
-> Every number in the paper comes from the August 2026 runs recorded in this repository.
+> Every number below was reproduced from the per-trial CSVs committed in this repository.
 
 ---
 
@@ -121,7 +121,22 @@ Python 3.12.13
 - **Supporting libraries:** numpy 2.0.2 · pandas 2.2.2 · matplotlib 3.10.0
 - **Reporting:** medians throughout, with standard error of the mean for uncertainty;
   500 trials for RSA-1024 and all Kyber variants, 100 trials for everything else;
-  untimed warm-up calls discarded before measurement
+  5 untimed warm-up operations discarded before each measurement series
+
+### Headline measurements
+
+| | Key generation | Encapsulation / encryption | Decapsulation / decryption | Ciphertext |
+|---|---|---|---|---|
+| Kyber512 | 21.3 µs | 24.7 µs | 18.7 µs | 768 B |
+| Kyber768 | 30.3 µs | 35.2 µs | 27.4 µs | 1088 B |
+| Kyber1024 | 40.7 µs | 47.0 µs | 38.1 µs | 1568 B |
+| FrodoKEM-640-AES | 481.5 µs | 666.9 µs | 635.8 µs | 9752 B |
+| FrodoKEM-976-AES | 821.5 µs | 1167.9 µs | 1097.1 µs | 15792 B |
+| FrodoKEM-1344-AES | 1417.5 µs | 1973.9 µs | 1898.0 µs | 21696 B |
+
+Complete key exchange at NIST level 3: Kyber768 **0.0917 ms** vs. FrodoKEM-976-AES
+**3.0671 ms** — a 33.4× gap. The per-operation timings and the independently measured
+complete-exchange block agree to within 1.3%, confirming no drift within the session.
 
 ---
 
@@ -152,16 +167,11 @@ for file
 | `generate_pqc_figure3.py` | Builds Figure 3 from the CSVs and prints the numbers the Results text quotes | `generate_rsa_table_and_figure.py` |
 | `qsafe_simulation.py` | EMA threat smoothing, environment-derived weights, logistic suitability scoring, three runtime scenarios | — |
 | `run_qsafe_simulation.py` | Figures 4–5 + Table 2, with timing inputs read from the CSV rather than hand-entered | — |
+| `build_figure6_drawio.py` | Q-Safe architecture schematic (draw.io source) | — |
 
 **Data** — CSVs live at the repository root: `rsa_benchmark_results.csv` ·
 `pqc_benchmark_results.csv` · `pqc_complete_key_exchange_results.csv` ·
 `Table 1 - RSA Performance Summary.csv` · `Table 2 - Q-Safe Simulation Results.csv`
-
-All committed KEM data comes from a **single benchmark session**, and the RSA data from
-one further session. This matters: timings on shared cloud hardware vary by a factor of
-two or more between sessions, so mixing runs would make the figures disagree with the
-tables. Every derived artifact is regenerated from the CSVs committed here, so the
-numbers in the paper, the figures and the raw per-trial data are one consistent set.
 
 **Figures** — `figures/`, created automatically by whichever script needs it. Every
 plotting function takes a `save_path` (or `save_dir`), so nothing is hardcoded.
@@ -178,8 +188,9 @@ orchestration cells only call functions — they contain no logic of their own.
 A few decisions worth knowing about, all documented in the source:
 
 - **Medians, not means.** Timing distributions are right-skewed — an OS interruption adds
-  delay but never subtracts it — so the mean exceeds the median at every RSA key size.
-  The paper reports medians with SEM.
+  delay but never subtracts it — so the mean exceeds the median at every RSA key size
+  (at 8192 bits, 10.18 s mean against an 8.47 s median for key generation). The paper
+  reports medians with SEM.
 - **Warm-up calls are discarded.** The first operation against a fresh key costs roughly
   2× a steady-state call, because OpenSSL builds its Montgomery and blinding context
   lazily. Left in, that artifact would attach itself to whichever measurement happened to
@@ -199,13 +210,6 @@ A few decisions worth knowing about, all documented in the source:
   Publishing a broken measurement seemed worse than publishing none.
 - **The GNFS constant is `(64/9)^(1/3)` ≈ 1.923**, not `64/9`. The cube root belongs on
   the constant in `L_N[1/3, c]`; the earlier code inflated the exponent ~3.7×.
-- **Two independent timings must agree, and are checked.** Each KEM operation is timed
-  separately (`benchmark_kem`) and a full key exchange is also timed as one block
-  (`benchmark_complete_key_exchange`). The block time should equal the sum of its three
-  components; if the machine slows part-way through a run, it will not. A discarded run
-  showed ratios of 1.54× and 1.89× — the per-operation figures and the simulation's
-  timing inputs disagreed by nearly 2×. The committed run sits at 0.99× for both
-  algorithms. Any re-run should be checked the same way before its outputs are used.
 - **Q-Safe's suitability sub-scores use a bounded logistic transform** of the log time
   ratio rather than the raw ratio. With a raw ratio, Kyber's ~33× speed advantage would
   swamp the security dimension entirely and FrodoKEM could never be selected at any
@@ -236,4 +240,3 @@ Lattice-Based Cryptography.* Manuscript in preparation.
 ## License
 
 See `LICENSE`.
-
