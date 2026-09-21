@@ -17,7 +17,7 @@ and the sentence next to it cannot drift apart.
 import os
 
 from benchmark_pqc import load_results_from_csv
-from plot_pqc_comparison import plot_figure4
+from plot_pqc_comparison import plot_kem_comparison_panels
 from pqc_config import (
     PER_VARIANT_CSV, COMPLETE_EXCHANGE_CSV, FIGURE_DIR,
     LEVEL3_KYBER, LEVEL3_FRODO, KYBER_ALGS, FRODO_ALGS,
@@ -37,7 +37,7 @@ def generate_figure3(per_variant_csv: str = PER_VARIANT_CSV,
 
     results = load_results_from_csv(per_variant_csv, complete_csv)
 
-    plot_figure4(results["per_variant"], stat="median", error_bar_type="sem",
+    plot_kem_comparison_panels(results["per_variant"], stat="median", error_bar_type="sem",
                  color_style="gradient", save_path=figure_path, show=show)
 
     # The numbers the Results paragraph quotes, printed from the same data
