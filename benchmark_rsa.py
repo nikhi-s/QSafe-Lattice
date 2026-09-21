@@ -49,6 +49,7 @@ import time
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 
 from rsa_implementation import (
     generate_rsa_key_pair,
@@ -369,7 +370,7 @@ def plot_rsa_summary(df, key_sizes, message_size=16, stat="median",
         ("A", "key_gen_time_s", "Key Generation Time", "Time (seconds)", True),
         ("B", "encryption_time_ms", "Encryption Time", "Time (ms)", True),
         ("C", "decryption_time_ms", "Decryption Time", "Time (ms)", True),
-        ("D", "ciphertext_size_bytes", "Ciphertext Size", "Size (bytes)", False),
+        ("D", "ciphertext_size_bytes", "Ciphertext Size", "Size (bytes)", True),
     ]
 
     fig, axes = plt.subplots(2, 2, figsize=(11, 9))
@@ -377,23 +378,47 @@ def plot_rsa_summary(df, key_sizes, message_size=16, stat="median",
     color = "#2166AC"
 
     for ax, (label, col, title, ylabel, log_scale) in zip(axes, panels):
-        x = summary.index.astype(str)
+        x = summary.index.to_numpy(dtype=float)
         y = summary[col]
         err_col = f"{col}_err"
         yerr = summary[err_col] if (show_error_bars and err_col in summary.columns) else None
 
         ax.errorbar(x, y, yerr=yerr, marker="o", color=color, linewidth=2, markersize=7,
                     capsize=5, elinewidth=1.4, capthick=1.4, ecolor="black")
-        for xi, yi in zip(x, y):
+
+        # First/last labels are pulled inward so they clear the axes frame.
+        n_pts = len(x)
+        for i, (xi, yi) in enumerate(zip(x, y)):
             if pd.notna(yi):
-                ax.annotate(f"{yi:.4g}", (xi, yi), xytext=(0, 8),
-                            textcoords="offset points", ha="center", fontsize=8)
+                ha = "left" if i == 0 else ("right" if i == n_pts - 1 else "center")
+                ax.annotate(f"{yi:.4g}", (xi, yi), xytext=(0, 10),
+                            textcoords="offset points", ha=ha, fontsize=8)
+
         ax.set_xlabel("Key size (bits)")
+        ax.set_xscale("log", base=2)
+        ax.set_xticks(list(summary.index))
+        ax.set_xticklabels([str(k) for k in summary.index])
+        ax.xaxis.set_minor_locator(mticker.NullLocator())
+
         ax.set_ylabel(ylabel)
-        ax.set_title(f"{label}) {title}", loc="left", fontweight="bold")
-        if log_scale:
-            ax.set_yscale("log")
-        ax.grid(True, alpha=0.3)
+        ax.set_title(f"{label})", loc="left", fontweight="bold")
+        ax.set_yscale("log")
+
+        if col == "ciphertext_size_bytes":
+            # Exact powers of two -- label them directly, no decade ticks.
+            ax.yaxis.set_major_locator(mticker.FixedLocator([128, 256, 512, 1024]))
+            ax.yaxis.set_minor_locator(mticker.NullLocator())
+            ax.yaxis.set_major_formatter(mticker.ScalarFormatter())
+        else:
+            # Timing panels span less than two decades, so decade ticks alone
+            # leave the axis nearly unlabelled (panel B had exactly one).
+            ax.yaxis.set_minor_locator(
+                mticker.LogLocator(base=10.0, subs=(2.0, 3.0, 5.0), numticks=12))
+            ax.yaxis.set_minor_formatter(mticker.FormatStrFormatter("%g"))
+            ax.tick_params(axis="y", which="minor", labelsize=7)
+
+        ax.margins(x=0.08)
+        ax.grid(True, which="both", alpha=0.3)
 
     # NOTE: no fig.suptitle() here -- JEI prohibits on-graph titles;
     # the descriptive title belongs in the figure caption (see docstring).

@@ -321,12 +321,12 @@ def load_results_from_csv(per_variant_csv: str = PER_VARIANT_CSV,
     returns (mean/median/min/stdev/sem per metric, plus "raw" per-trial
     lists) by reading back the tidy CSVs saved by save_results_to_csv().
 
-    This means plot_pqc_comparison.py's plot_figure4()/plot_all_comparisons()
+    This means plot_pqc_comparison.py's plot_kem_comparison_panels()/plot_all_comparisons()
     work completely unchanged whether fed a live benchmark run or data
     loaded from disk -- e.g.:
 
         results = load_results_from_csv()
-        plot_figure4(results["per_variant"], stat="median", error_bar_type="sem")
+        plot_kem_comparison_panels(results["per_variant"], stat="median", error_bar_type="sem")
 
     No liboqs/Colab required for this half of the workflow.
     """

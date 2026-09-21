@@ -279,9 +279,9 @@ def plot_scenario(result: dict, save_dir: str = FIGURE_DIR,
     t = np.arange(NUM_TIMESTEPS)
     sf = result["smoothed_factors"]
 
-    axes[0].plot(t, sf["threat"], label="Threat level")
-    axes[0].plot(t, sf["capability"], label="System capability")
-    axes[0].plot(t, sf["energy"], label="Energy availability")
+    axes[0].plot(t, sf["threat"], label="Threat level", linestyle="-")
+    axes[0].plot(t, sf["capability"], label="System capability", linestyle="--")
+    axes[0].plot(t, sf["energy"], label="Energy availability", linestyle=":")
     axes[0].set_ylabel("Factor value (0-100)")
     axes[0].set_title("A)", loc="left", fontweight="bold")
     axes[0].legend()
@@ -306,7 +306,7 @@ def plot_scenario(result: dict, save_dir: str = FIGURE_DIR,
     always_frodo_line = np.linspace(0, result["always_frodo_ms"], NUM_TIMESTEPS)
     axes[2].plot(t, cumulative, label="Q-Safe", linewidth=2)
     axes[2].plot(t, always_kyber_line, label="Always-Kyber", linestyle="--")
-    axes[2].plot(t, always_frodo_line, label="Always-FrodoKEM", linestyle="--")
+    axes[2].plot(t, always_frodo_line, label="Always-FrodoKEM", linestyle=":")
     axes[2].set_xlabel("Timestep (key exchange)")
     axes[2].set_ylabel("Cumulative time (ms)")
     axes[2].set_title("C)", loc="left", fontweight="bold")

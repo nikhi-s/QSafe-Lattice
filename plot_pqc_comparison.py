@@ -98,14 +98,16 @@ def _format_bar_value(value, metric_key: str) -> str:
     return f"{value * 1e3:.2f} ms"
 
 
-def plot_figure4(per_variant_results: dict, stat: str = "median",
+def plot_kem_comparison_panels(per_variant_results: dict, stat: str = "median",
                   save_path: str = os.path.join(
                       FIGURE_DIR, "Figure 3 - Kyber vs FrodoKEM Performance.png"),
                   show_error_bars: bool = True, error_bar_type: str = "sem",
                   annotate_values: bool = True, color_style: str = "flat",
                   show: bool = True):
     """
-    Combined 2x2 panel matching the JEI draft's Figure 4 caption exactly.
+    Combined 2x2 panel comparing Kyber and FrodoKEM at matched NIST
+    security levels: encapsulation, decapsulation, key generation, and
+    ciphertext size.
     """
     panels = [
         ("A", "encap_time_s", "Encapsulation Time", "Time (seconds)", True),
@@ -156,7 +158,7 @@ def plot_figure4(per_variant_results: dict, stat: str = "median",
         ax.set_xticks(x)
         ax.set_xticklabels(SECURITY_LEVELS)
         ax.set_ylabel(ylabel)
-        ax.set_title(f"{label}) {title}", loc="left", fontweight="bold")
+        ax.set_title(f"{label})", loc="left", fontweight="bold")
         if log_scale:
             ax.set_yscale("log")
         ax.grid(True, axis="y", alpha=0.3)
@@ -166,7 +168,7 @@ def plot_figure4(per_variant_results: dict, stat: str = "median",
     if use_gradient:
         from matplotlib.patches import Patch
         legend_patches = (
-            [Patch(facecolor=c, edgecolor="black", label=f"Kyber-{n.replace('Kyber', '')}")
+            [Patch(facecolor=c, edgecolor="black", label=n)
              for c, n in zip(KYBER_COLORS, KYBER_ALGS)]
             + [Patch(facecolor=c, edgecolor="black",
                      label=f"FrodoKEM-{n.replace('FrodoKEM-', '').replace('-AES', '')}")
